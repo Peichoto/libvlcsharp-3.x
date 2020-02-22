@@ -1,0 +1,26 @@
+trigger:
+- master
+- 3.x
+
+pr:
+- master
+- 3.x
+
+jobs:
+- job: Linux
+  pool:
+    vmImage: 'ubuntu-16.04'
+  steps:
+  - template: scripts/linux-build.yml
+
+- job: macOS
+  pool:
+    vmImage: 'macOS-10.13'
+  steps:
+  - template: scripts/mac-build.yml
+
+- job: Windows
+  pool:
+    vmImage: 'windows-2019'
+  steps:
+  - template: scripts/windows-build.yml

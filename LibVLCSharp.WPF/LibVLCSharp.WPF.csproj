@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <Title>LibVLCSharp.WPF</Title>
+    <Summary>WPF integration for LibVLCSharp</Summary>
+    <Description>LibVLCSharp is a cross-platform audio and video API for .NET platforms based on VideoLAN's LibVLC Library. It provides a comprehensive multimedia API that can be used across mobile, server and desktop to render video and output audio. Mono, .NET Framework and .NET Core runtimes are supported.
+  
+LibVLCSharp.WPF contains the integration with Windows Presentation Foundation (WPF).
+
+This package contains the views that allows to display a video played with LibVLCSharp
+in a WPF app. It depends on LibVLCSharp.
+
+LibVLC needs to be installed separately, see VideoLAN.LibVLC.* packages.
+    </Description> 
+    <TargetFrameworks>net461;netcoreapp3.0</TargetFrameworks>
+    <RootNamespace>LibVLCSharp.WPF</RootNamespace>
+    <NeutralLanguage>en</NeutralLanguage>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>3.4.2</Version>
+    <PackageId>LibVLCSharp.WPF</PackageId>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Authors>VideoLAN</Authors>
+    <Owners>VideoLAN</Owners>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://code.videolan.org/videolan/LibVLCSharp</RepositoryUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>https://code.videolan.org/videolan/LibVLCSharp/blob/master/NEWS</PackageReleaseNotes>
+    <PackageTags>libvlc;vlc;videolan;native;c/c++;video;audio;player;media;mediaplayer;codec;ffmpeg;xamarin;graphics;ios;android;linux;windows;macos;cross-platform</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\Assets\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibVLCSharp\LibVLCSharp.csproj" />
+  </ItemGroup>
+</Project>

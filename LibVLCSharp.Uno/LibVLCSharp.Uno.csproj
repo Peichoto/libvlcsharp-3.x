@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
+  <PropertyGroup>
+    <Title>LibVLCSharp.Uno</Title>
+    <Summary>Uno integration for LibVLCSharp</Summary>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TargetFrameworks>xamarinios10;monoandroid81</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOsPlatform('Windows'))">$(TargetFrameworks);uap10.0.16299</TargetFrameworks>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <Authors>VideoLAN</Authors>
+    <Owners>VideoLAN</Owners>
+    <Version>0.0.2-alpha2</Version>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
+    <Description>LibVLCSharp.Uno is the integration of LibVLCSharp with the Uno Platform on Windows, iOS and Android.
+
+It also contains a VLC MediaPlayerElement for the Uno Platform (UWP, Android, iOS)</Description>
+    <PackageTags>libvlc;vlc;videolan;video;audio;player;media;mediaplayer;mediaelement;mediaplayerelement;codec;ffmpeg;graphics;ios;android;windows;cross-platform;uno</PackageTags>
+    <PackageProjectUrl>https://code.videolan.org/videolan/LibVLCSharp</PackageProjectUrl>
+    <RootNamespace>LibVLCSharp.Uno</RootNamespace>
+    <PackageId>LibVLCSharp.Uno</PackageId>
+    <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://code.videolan.org/videolan/LibVLCSharp</RepositoryUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <PackageReleaseNotes>https://code.videolan.org/videolan/LibVLCSharp/blob/master/NEWS</PackageReleaseNotes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup> 
+  <ItemGroup>
+    <Page Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+    <PRIResource Include="Strings\**\*.resw" />
+    <None Include="..\Assets\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <Compile Update="**\*.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="**\*.xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibVLCSharp\LibVLCSharp.csproj" />
+    <Compile Remove="**\*.UWP.cs" />
+    <Compile Remove="**\*.Android.cs" />
+    <Compile Remove="**\*.iOS.cs" />
+    <None Include="**\*.UWP.cs" />
+    <None Include="**\*.Android.cs" />
+    <None Include="**\*.iOS.cs" />
+    <Page Remove="**\*.UWP.xaml" />
+    <Page Remove="**\*.Android.xaml" />
+    <Page Remove="**\*.iOS.xaml" />
+    <None Include="**\*.UWP.xaml" />
+    <None Include="**\*.Android.xaml" />
+    <None Include="**\*.iOS.xaml" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios')) or $(TargetFramework.StartsWith('monoandroid'))">
+    <PackageReference Include="Uno.UI" Version="2.0.512-dev.4178" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('uap'))">
+    <Compile Include="**\*.UWP.*cs" />
+    <Page Include="**\*.UWP.*xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('monoandroid'))">
+    <ProjectReference Include="..\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" />
+    <Compile Include="**\*.Android.*cs" />
+    <Page Include="**\*.Android.*xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('xamarinios'))">
+    <Compile Include="**\*.iOS.*cs" />
+    <Page Include="**\*.iOS.*xaml" Exclude="bin\**\*.xaml;obj\**\*.xaml" />
+  </ItemGroup>
+</Project>

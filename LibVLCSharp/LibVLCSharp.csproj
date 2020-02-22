@@ -1,0 +1,104 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <Title>LibVLCSharp</Title>
+    <Summary>The official .NET wrapper around LibVLC.</Summary>
+    <Description>LibVLCSharp is a cross-platform audio and video API for .NET platforms based on VideoLAN's LibVLC Library. It provides a comprehensive multimedia API that can be used across mobile, server and desktop to render video and output audio. Mono, .NET Framework and .NET Core runtimes are supported.
+
+This package contains the core features of LibVLCSharp (libvlc loading and initialization, .NET-friendly classes to ease the use of libvlc...). All other `LibVLCSharp.*` packages depend on this one.
+Features:
+- Plays all formats
+- Network browsing for distant filesystems (SMB, FTP, SFTP, NFS...).
+- HDMI pass-through for Audio HD codecs, like E-AC3, TrueHD or DTS-HD.
+- Stream to distant renderers, like Chromecast.
+- 360 video and 3D audio playback with viewpoint change.
+- Support for Ambisonics audio and more than 8 audio channels.
+- Subtitles size modification live.
+- Hardware and software decoding on all platforms.
+- DVD playback and menu navigation.
+- Equalizer support.
+
+This package also contains the views for the following platforms:
+
+- Android
+- iOS
+- Mac
+- tvOS
+- UWP
+
+If you need Xamarin.Forms support, see LibVLCSharp.Forms. 
+
+LibVLC needs to be installed separately, see VideoLAN.LibVLC.* packages.</Description>
+    <TargetFrameworks>netstandard2.0;netstandard1.1;net40;net471</TargetFrameworks>
+    <TargetFrameworks Condition="!$([MSBuild]::IsOsPlatform('Linux'))">$(TargetFrameworks);MonoAndroid81;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10</TargetFrameworks>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeAWindow</TargetsForTfmSpecificBuildOutput>
+    <RootNamespace>LibVLCSharp</RootNamespace>
+    <NeutralLanguage>en</NeutralLanguage>
+    <LangVersion>8.0</LangVersion>
+    <Version>3.4.2</Version>
+    <PackageId>LibVLCSharp</PackageId>
+    <Authors>VideoLAN</Authors>
+    <Owners>VideoLAN</Owners>
+    <GeneratePackageOnBuild Condition=" '$(Configuration)' == 'Release' ">true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+    <PackageLicenseExpression>LGPL-2.1-or-later</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://code.videolan.org/videolan/LibVLCSharp/tree/master/LibVLCSharp</RepositoryUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>https://code.videolan.org/videolan/LibVLCSharp/blob/master/NEWS</PackageReleaseNotes>
+    <PackageTags>libvlc;vlc;videolan;native;c/c++;video;audio;player;media;mediaplayer;codec;ffmpeg;xamarin;graphics;ios;android;linux;windows;macos;cross-platform</PackageTags>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(UNITY_ANDROID)=='true'">
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);UNITY_ANDROID</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(NETSTANDARD_ONLY)=='true'">
+    <TargetFrameworks>netstandard2.0;netstandard1.1</TargetFrameworks>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.StartsWith('uap'))">
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Platforms\**\*.cs" />
+    <None Include="Platforms\**\*.cs" />
+    <None Include="..\Assets\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('MonoAndroid'))">
+    <Compile Include="Platforms\Android\**\*.cs" />
+    <ProjectReference Include="..\LibVLCSharp.Android.AWindow\LibVLCSharp.Android.AWindow.csproj" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS'))">
+    <Compile Include="Platforms\iOS\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.Mac'))">
+    <Compile Include="Platforms\Mac\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.TVOS'))">
+    <Compile Include="Platforms\tvOS\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
+    <Compile Remove="Shared\MediaPlayerElement\*.*" />
+    <None Include="Shared\MediaPlayerElement\*.*" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+    <Compile Remove="Shared\MediaPlayerElement\*.*" />
+    <None Include="Shared\MediaPlayerElement\*.*" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Bcl.Async" Version="1.0.168" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('uap'))">
+    <Compile Include="Platforms\UWP\**\*.cs" />
+    <Page Include="Themes\Generic.xaml" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="SharpDX.Direct3D11" Version="4.2.0" />
+  </ItemGroup>
+  <Target Name="IncludeAWindow" Condition="$(TargetFramework.StartsWith('MonoAndroid'))">
+    <ItemGroup>
+      <BuildOutputInPackage Include="$(OutputPath)LibVLCSharp.Android.AWindow.dll" />
+    </ItemGroup>
+  </Target>
+</Project>
